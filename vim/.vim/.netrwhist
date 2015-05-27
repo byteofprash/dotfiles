@@ -1,0 +1,5 @@
+let g:netrw_dirhistmax  =10
+let g:netrw_dirhist_cnt =3
+let g:netrw_dirhist_1='/home/psw5kor/samba/views/cochmi/.git'
+let g:netrw_dirhist_2='/home/psw5kor/samba/views/cochmi/ai_hmi_coc/products/HMICOC/Apps/AppHmi_AirisTestApp/App/Core'
+let g:netrw_dirhist_3='/home/psw5kor/samba/views/cochmi/ai_hmi_coc/products/HMICOC/Apps/AppHmi_AirisHomeScreen/HMI'
