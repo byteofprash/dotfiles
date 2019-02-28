@@ -1,5 +1,6 @@
 let g:netrw_dirhistmax  =10
-let g:netrw_dirhist_cnt =3
-let g:netrw_dirhist_1='/home/psw5kor/samba/views/cochmi/.git'
-let g:netrw_dirhist_2='/home/psw5kor/samba/views/cochmi/ai_hmi_coc/products/HMICOC/Apps/AppHmi_AirisTestApp/App/Core'
-let g:netrw_dirhist_3='/home/psw5kor/samba/views/cochmi/ai_hmi_coc/products/HMICOC/Apps/AppHmi_AirisHomeScreen/HMI'
+let g:netrw_dirhist_cnt =4
+let g:netrw_dirhist_1='/media/byteofprash/data/prashanth/code/scoliosis_pipeline/scoliosis_pipeline'
+let g:netrw_dirhist_2='/media/byteofprash/data/prashanth/personal/ppu'
+let g:netrw_dirhist_3='/media/byteofprash/data/prashanth/personal'
+let g:netrw_dirhist_4='/media/byteofprash/data/prashanth/personal/ppu'
