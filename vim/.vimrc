@@ -19,7 +19,8 @@ nnoremap <C-@> i
 nnoremap o o<Esc>
 nnoremap O O<Esc>
 nnoremap <space> za
-" opens and closses the Tagbar window
+" opens and closses the Tagbar window. 
+" make sure to install CTAGS
 nmap <F8> :TagbarToggle<CR> 
 "" --------------Display Characteristics----
 " show line numbers
