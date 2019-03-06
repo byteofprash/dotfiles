@@ -19,8 +19,9 @@ nnoremap <C-@> i
 nnoremap o o<Esc>
 nnoremap O O<Esc>
 nnoremap <space> za
-" opens and closses the Tagbar window. 
-" make sure to install CTAGS
+" Find and replace word under the cursor
+nnoremap <Leader>s :%s/\<<C-r><C-w>\>/
+" opens and closses the Tagbar window
 nmap <F8> :TagbarToggle<CR> 
 "" --------------Display Characteristics----
 " show line numbers
@@ -100,13 +101,29 @@ Plugin 'w0rp/ale' " ze amazing tool for static lint checking.
 Plugin 'itchyny/lightline.vim'
 Plugin 'davidhalter/jedi-vim' " Biting dust and installing this. check again on 31-Mar-2019
 Plugin 'scrooloose/nerdtree' "Biting dust and installing this. check again on 31-Mar-2019
-"
+Plugin 'SirVer/ultisnips' " Ultisnips plugin
+Plugin 'honza/vim-snippets' " Snippets are separated from the engine.
+
 "-- Colorscheme plugins
 Plugin 'haishanh/night-owl.vim' " Nightowl colour scheme
 Plugin 'morhetz/gruvbox' " Gruvbox colour scheme
 call vundle#end() 
 "------------------------------------
 
+"------------UltiSnips Settings-----
+" Trigger configuration. Do not use <tab> if you use https://github.com/Valloric/YouCompleteMe.
+let g:UltiSnipsExpandTrigger="<tab>"
+let g:UltiSnipsJumpForwardTrigger="<c-b>"
+let g:UltiSnipsJumpBackwardTrigger="<c-z>"
+
+" If you want :UltiSnipsEdit to split your window.
+let g:UltiSnipsEditSplit="vertical"
+"-----------------------------------
+"
+"
+"
+"
+"
 "------------Ale Settings-----
 ":ALEFix fixes the lints
 " flake8 and autopep8 : Please install these 2 with pip3
@@ -121,6 +138,7 @@ nmap <silent> E :ALEPrevious<cr>
 map <F2> :NERDTreeToggle<CR>
 "--------------Colourscheme---------
 set background=dark " Setting the dark theme of gruvbox
+let g:gruvbox_contrast_dark = 'hard'
 colorscheme gruvbox
 "------------------------------------
 
