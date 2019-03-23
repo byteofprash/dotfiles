@@ -105,10 +105,12 @@ Plugin 'vimwiki/vimwiki' " Vimwiki
 Plugin 'majutsushi/tagbar' " Tagbar is a plugin that shows the tags in a separate bad in the right side. 
 Plugin 'w0rp/ale' " ze amazing tool for static lint checking. 
 Plugin 'itchyny/lightline.vim'
+
 Plugin 'davidhalter/jedi-vim' " Biting dust and installing this. check again on 31-Mar-2019
 Plugin 'scrooloose/nerdtree' "Biting dust and installing this. check again on 31-Mar-2019
 Plugin 'SirVer/ultisnips' " Ultisnips plugin
 Plugin 'honza/vim-snippets' " Snippets are separated from the engine.
+Plugin 'tpope/vim-fugitive'  "Biting dust and installing this. check again on 31-Mar-2019
 "-- Colorscheme plugins
 Plugin 'haishanh/night-owl.vim' " Nightowl colour scheme
 Plugin 'morhetz/gruvbox' " Gruvbox colour scheme
