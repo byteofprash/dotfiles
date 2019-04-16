@@ -8,7 +8,7 @@ set wildmenu
 set nocompatible
 filetype plugin on
 syntax on
-
+set noswapfile
 "-----------------------------------
 
 """ My nnoremaps-----------
