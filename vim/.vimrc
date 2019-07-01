@@ -8,7 +8,7 @@ set wildmenu
 set nocompatible
 filetype plugin on
 syntax on
-
+set noswapfile
 "-----------------------------------
 
 """ My nnoremaps-----------
@@ -19,10 +19,16 @@ nnoremap <C-@> i
 nnoremap o o<Esc>
 nnoremap O O<Esc>
 nnoremap <space> za
+" Shows all the todos in the working directory
+noremap <Leader>t :noautocmd vimgrep /TODO/j **/*.py<CR>:cw<CR> 
 " Find and replace word under the cursor
 nnoremap <Leader>s :%s/\<<C-r><C-w>\>/
 " opens and closses the Tagbar window
 nmap <F8> :TagbarToggle<CR> 
+" This runs the ALEFix and fixes the lints
+nmap <F4> :ALEFix<CR> 
+noremap <expr> <C-b> max([winheight(0) - 2, 1]) . "\<C-u>" . (line('.') < 1         + winheight(0) ? 'H' : 'L')
+noremap <expr> <C-f> max([winheight(0) - 2, 1]) . "\<C-d>" . (line('.') > line('$') - winheight(0) ? 'L' : 'H')
 "" --------------Display Characteristics----
 " show line numbers
 set number
@@ -94,16 +100,18 @@ Plugin 'tpope/vim-unimpaired'
 Plugin 'tpope/vim-surround' " Plugin used to surround a particular text with a char(:,[,],),..)
 Plugin 'kopischke/vim-stay' " Plugin to remember the fucking folds and not mess up!
 Plugin 'Konfekt/FastFold' "Plugin to take care of the fucked up folds in Vim!
+Plugin 'tmhedberg/SimpylFold' " Plugin to take care of folding in python
 Plugin 'tpope/vim-commentary' "Awesomatic plugin to comment lines. use gcc 
 Plugin 'vimwiki/vimwiki' " Vimwiki
 Plugin 'majutsushi/tagbar' " Tagbar is a plugin that shows the tags in a separate bad in the right side. 
 Plugin 'w0rp/ale' " ze amazing tool for static lint checking. 
 Plugin 'itchyny/lightline.vim'
+
 Plugin 'davidhalter/jedi-vim' " Biting dust and installing this. check again on 31-Mar-2019
 Plugin 'scrooloose/nerdtree' "Biting dust and installing this. check again on 31-Mar-2019
 Plugin 'SirVer/ultisnips' " Ultisnips plugin
 Plugin 'honza/vim-snippets' " Snippets are separated from the engine.
-
+Plugin 'tpope/vim-fugitive'  "Biting dust and installing this. check again on 31-Mar-2019
 "-- Colorscheme plugins
 Plugin 'haishanh/night-owl.vim' " Nightowl colour scheme
 Plugin 'morhetz/gruvbox' " Gruvbox colour scheme
@@ -118,9 +126,12 @@ let g:UltiSnipsJumpBackwardTrigger="<c-z>"
 
 " If you want :UltiSnipsEdit to split your window.
 let g:UltiSnipsEditSplit="vertical"
+let g:ultisnips_python_style="numpy"
 "-----------------------------------
 "
-"
+"------------Jedi Vim Settings-----
+let g:jedi#show_call_signatures=2
+"-----------------------------------
 "
 "
 "
@@ -135,11 +146,20 @@ nmap <silent> E :ALEPrevious<cr>
 "-----------------------------------
 
 "------------NERDTree Settings-----
-map <F2> :NERDTreeToggle<CR>
+let g:tagbar_left = 1
+let g:tagbar_vertical = 35
+let g:tagbar_autofocus = 1
+let NERDTreeWinPos = 'left'
+" The genuis way of opening tagbar and nerdtree together!!!!
+map <F2> :NERDTreeToggle <bar> :TagbarToggle <CR>
 "--------------Colourscheme---------
-set background=dark " Setting the dark theme of gruvbox
+set background=dark" Setting the dark theme of gruvbox
 let g:gruvbox_contrast_dark = 'hard'
 colorscheme gruvbox
+if g:colors_name == "gruvbox"
+ highlight Normal ctermbg=16 guibg=#000000
+"List other overrides here
+endif
 "------------------------------------
 
 
