@@ -111,7 +111,13 @@ Plugin 'davidhalter/jedi-vim' " Biting dust and installing this. check again on 
 Plugin 'scrooloose/nerdtree' "Biting dust and installing this. check again on 31-Mar-2019
 Plugin 'SirVer/ultisnips' " Ultisnips plugin
 Plugin 'honza/vim-snippets' " Snippets are separated from the engine.
+<<<<<<< HEAD
 Plugin 'tpope/vim-fugitive'  "Biting dust and installing this. check again on 31-Mar-2019
+=======
+Plugin 'tpope/vim-fugitive'  " Biting dust and installing this. check again on 31-Mar-2019
+Plugin 'mattn/calendar-vim' "  Biting dust and installing this. check again on 30-Apr-2019
+Plugin 'lervag/vimtex'
+>>>>>>> a848b0089afb658c21849061ebbcb76abf858925
 "-- Colorscheme plugins
 Plugin 'haishanh/night-owl.vim' " Nightowl colour scheme
 Plugin 'morhetz/gruvbox' " Gruvbox colour scheme
@@ -166,6 +172,14 @@ endif
 " Making my own Vimrc Folds. Anything that has more than two double quote is a section
 "" vim:fdm=expr:fdl=0
 "" vim:fde=getline(v\:lnum)=~'^""'?'>'.(matchend(getline(v\:lnum),'""*')-2)\:'='
+
+"-------------VimTex Config--------
+let g:vimtex_compiler_latexmk = {
+    \ 'build_dir' : 'build',
+    \}
+"---------------------------------
+
+
 
 "-------------VimWiki Config--------
 
