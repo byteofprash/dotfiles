@@ -27,6 +27,7 @@ nnoremap <Leader>s :%s/\<<C-r><C-w>\>/
 nmap <F8> :TagbarToggle<CR> 
 " This runs the ALEFix and fixes the lints
 nmap <F4> :ALEFix<CR> 
+nmap <F5> :ALEToggle<CR> 
 noremap <expr> <C-b> max([winheight(0) - 2, 1]) . "\<C-u>" . (line('.') < 1         + winheight(0) ? 'H' : 'L')
 noremap <expr> <C-f> max([winheight(0) - 2, 1]) . "\<C-d>" . (line('.') > line('$') - winheight(0) ? 'L' : 'H')
 "" --------------Display Characteristics----
@@ -111,16 +112,20 @@ Plugin 'davidhalter/jedi-vim' " Biting dust and installing this. check again on 
 Plugin 'scrooloose/nerdtree' "Biting dust and installing this. check again on 31-Mar-2019
 Plugin 'SirVer/ultisnips' " Ultisnips plugin
 Plugin 'honza/vim-snippets' " Snippets are separated from the engine.
-<<<<<<< HEAD
 Plugin 'tpope/vim-fugitive'  "Biting dust and installing this. check again on 31-Mar-2019
-=======
-Plugin 'tpope/vim-fugitive'  " Biting dust and installing this. check again on 31-Mar-2019
 Plugin 'mattn/calendar-vim' "  Biting dust and installing this. check again on 30-Apr-2019
 Plugin 'lervag/vimtex'
->>>>>>> a848b0089afb658c21849061ebbcb76abf858925
 "-- Colorscheme plugins
 Plugin 'haishanh/night-owl.vim' " Nightowl colour scheme
 Plugin 'morhetz/gruvbox' " Gruvbox colour scheme
+Plugin 'ctrlpvim/ctrlp.vim' " CtrlP to fuzzy find files. Using this instead of nerdtree
+Plugin 'vim-airline/vim-airline' " Airline statusbar
+Plugin 'vim-airline/vim-airline-themes'
+Plugin 'christoomey/vim-tmux-navigator'
+Plugin 'mtth/cursorcross.vim'
+Plugin 'blueyed/vim-diminactive'
+Plugin 'kana/vim-textobj-user'
+Plugin 'bps/vim-textobj-python'
 call vundle#end() 
 "------------------------------------
 
@@ -136,7 +141,9 @@ let g:ultisnips_python_style="numpy"
 "-----------------------------------
 "
 "------------Jedi Vim Settings-----
-let g:jedi#show_call_signatures=2
+let g:jedi#show_call_signatures="0"
+
+" g:jedi#show_call_signatures = "0"
 "-----------------------------------
 "
 "
@@ -147,17 +154,18 @@ let g:jedi#show_call_signatures=2
 let g:ale_lint_on_text_changed = 'never'
 let b:ale_fixers = ['autopep8']
 let g:ale_python_flake8_options = '--ignore=E501' "Nobody wants 80 chars limit
-nmap <silent> e :ALENext<cr>
-nmap <silent> E :ALEPrevious<cr>
+nmap <silent> <leader>e :ALENext<cr>
+nmap <silent> <leader>E :ALEPrevious<cr>
 "-----------------------------------
 
 "------------NERDTree Settings-----
-let g:tagbar_left = 1
-let g:tagbar_vertical = 35
+let g:tagbar_right = 1
+" let g:tagbar_vertical = 35
 let g:tagbar_autofocus = 1
 let NERDTreeWinPos = 'left'
+autocmd FocusGained * if &filetype !=# "tagbar" | set relativenumber | endif
 " The genuis way of opening tagbar and nerdtree together!!!!
-map <F2> :NERDTreeToggle <bar> :TagbarToggle <CR>
+map <F2> :NERDTreeToggle <CR>
 "--------------Colourscheme---------
 set background=dark" Setting the dark theme of gruvbox
 let g:gruvbox_contrast_dark = 'hard'
@@ -179,9 +187,43 @@ let g:vimtex_compiler_latexmk = {
     \}
 "---------------------------------
 
-
+"------------Airline Config-------
+" let g:airline_powerline_fonts = 1
+let g:airline_theme='wombat'
+"--------------------------------
 
 "-------------VimWiki Config--------
 
-let g:vimwiki_list = [{'path':'~/wiki/','path_html':'~/wiki/wiki_html/','template_path':'~/wiki/wiki_html/template','template_default':'default','template_ext':'.htm'}]
+let g:vimwiki_list = [{'path':'~/wiki/','path_html':'~/wiki/wiki_html/','syntax': 'markdown', 'ext': '.md','template_path':'~/wiki/wiki_html/template','template_default':'default','template_ext':'.htm'}]
 "-----------------------------------
+"
+"
+"DOING THE UNTHINKABLE. DISABLING THE ARROW KEYS. LET'S SEE HOW LONG I LAST
+noremap <Up> <Nop>
+noremap <Down> <Nop>
+noremap <Left> <Nop>
+noremap <Right> <Nop>
+
+" TRYING TO FIND A NOVEL WAY TO USE REGISTERS AND SHUFFLE BETWEEN THEM
+" nnoremap <Leader> :let @x=@" \| let @"=@a \| let @a=@b \| let @b=@x<CR>
+vnoremap <Leader>y "+y
+nnoremap <Leader>y "+y
+nnoremap <Leader>p "+p
+
+" This zooms in and zooms out the current split window 
+noremap Zz <c-w>_ \| <c-w>\|
+noremap Zo <c-w>=
+
+"------------Indent Line settings------
+let g:indentLine_setColors=0
+let g:cursorcross_dynamic = 'clw'
+map <F9> :IndentLinesToggle <CR>
+"--------------------------------
+
+"------------Showing the time while saving------
+augroup SAVING
+    autocmd!
+    autocmd BufWritePost * echo strftime('%c')
+augroup END
+"--------------------------------
+
