@@ -174,6 +174,7 @@ if g:colors_name == "gruvbox"
  highlight Normal ctermbg=16 guibg=#000000
 "List other overrides here
 endif
+highlight Folded ctermfg=lightblue
 "------------------------------------
 
 
@@ -221,9 +222,13 @@ map <F9> :IndentLinesToggle <CR>
 "--------------------------------
 
 "------------Showing the time while saving------
-augroup SAVING
-    autocmd!
-    autocmd BufWritePost * echo strftime('%c')
-augroup END
-"--------------------------------
+"augroup SAVING
+"    autocmd!
+"    autocmd BufWritePost * echo strftime('%c')
+"augroup END
+""--------------------------------
 
+
+"----------SimpylFold settings-----------------
+let g:SimpylFold_docstring_preview = 0
+"----------------------------------------------
