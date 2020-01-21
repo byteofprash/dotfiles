@@ -12,9 +12,6 @@ set noswapfile
 "-----------------------------------
 
 """ My nnoremaps-----------
-" I can move to normal mode with ctrl+space
-nnoremap <C-@> i
-" inoremap <C-@> <Esc> " not really if I wanna do this. I'm not really using
 " Inserting a new line with o without entering input mode
 nnoremap o o<Esc>
 nnoremap O O<Esc>
@@ -85,6 +82,10 @@ autocmd FileType python setlocal commentstring=#\ %s
 set undofile " Maintain undo history between sessions
 set undodir=~/.vim/undodir
 
+"-----------------------COMMANDS--------------------
+command! Q q
+command! W w
+"
 " ---------------------- VIEWS-----------------------
 
 set viewoptions=cursor,folds,slash,unix
@@ -106,19 +107,16 @@ Plugin 'tpope/vim-commentary' "Awesomatic plugin to comment lines. use gcc
 Plugin 'vimwiki/vimwiki' " Vimwiki
 Plugin 'majutsushi/tagbar' " Tagbar is a plugin that shows the tags in a separate bad in the right side. 
 Plugin 'w0rp/ale' " ze amazing tool for static lint checking. 
-Plugin 'itchyny/lightline.vim'
+Plugin 'junegunn/fzf.vim'
 
 Plugin 'davidhalter/jedi-vim' " Biting dust and installing this. check again on 31-Mar-2019
 Plugin 'scrooloose/nerdtree' "Biting dust and installing this. check again on 31-Mar-2019
 Plugin 'SirVer/ultisnips' " Ultisnips plugin
 Plugin 'honza/vim-snippets' " Snippets are separated from the engine.
 Plugin 'tpope/vim-fugitive'  "Biting dust and installing this. check again on 31-Mar-2019
-Plugin 'mattn/calendar-vim' "  Biting dust and installing this. check again on 30-Apr-2019
 Plugin 'lervag/vimtex'
 "-- Colorscheme plugins
-Plugin 'haishanh/night-owl.vim' " Nightowl colour scheme
 Plugin 'morhetz/gruvbox' " Gruvbox colour scheme
-Plugin 'ctrlpvim/ctrlp.vim' " CtrlP to fuzzy find files. Using this instead of nerdtree
 Plugin 'vim-airline/vim-airline' " Airline statusbar
 Plugin 'vim-airline/vim-airline-themes'
 Plugin 'christoomey/vim-tmux-navigator'
@@ -126,6 +124,7 @@ Plugin 'mtth/cursorcross.vim'
 Plugin 'blueyed/vim-diminactive'
 Plugin 'kana/vim-textobj-user'
 Plugin 'bps/vim-textobj-python'
+Plugin 'mzlogin/vim-markdown-toc'  " Unfortunately the only FUCKING way to create a md TOC
 call vundle#end() 
 "------------------------------------
 
@@ -137,13 +136,11 @@ let g:UltiSnipsJumpBackwardTrigger="<c-z>"
 
 " If you want :UltiSnipsEdit to split your window.
 let g:UltiSnipsEditSplit="vertical"
-let g:ultisnips_python_style="numpy"
+let g:ultisnips_python_style="sphinx"
 "-----------------------------------
 "
 "------------Jedi Vim Settings-----
 let g:jedi#show_call_signatures="0"
-
-" g:jedi#show_call_signatures = "0"
 "-----------------------------------
 "
 "
@@ -151,11 +148,16 @@ let g:jedi#show_call_signatures="0"
 "------------Ale Settings-----
 ":ALEFix fixes the lints
 " flake8 and autopep8 : Please install these 2 with pip3
-let g:ale_lint_on_text_changed = 'never'
-let b:ale_fixers = ['autopep8']
-let g:ale_python_flake8_options = '--ignore=E501' "Nobody wants 80 chars limit
+" let g:ale_lint_on_text_changed = 'never'
+let g:ale_linters = {'python': ['flake8']}
+let g:ale_fixers = {'python': ['autopep8', 'isort']}
+let g:ale_python_flake8_options = '--max-line-length=120' "Nobody wants 80 chars limit
 nmap <silent> <leader>e :ALENext<cr>
 nmap <silent> <leader>E :ALEPrevious<cr>
+let g:ale_sign_warning = '▲'
+let g:ale_sign_error = '✗'
+highlight link ALEWarningSign String
+highlight link ALEErrorSign Title
 "-----------------------------------
 
 "------------NERDTree Settings-----
@@ -168,19 +170,15 @@ autocmd FocusGained * if &filetype !=# "tagbar" | set relativenumber | endif
 map <F2> :NERDTreeToggle <CR>
 "--------------Colourscheme---------
 set background=dark" Setting the dark theme of gruvbox
-let g:gruvbox_contrast_dark = 'hard'
 colorscheme gruvbox
 if g:colors_name == "gruvbox"
  highlight Normal ctermbg=16 guibg=#000000
 "List other overrides here
 endif
 highlight Folded ctermfg=lightblue
+let g:gruvbox_contrast_dark = 'hard'
 "------------------------------------
 
-
-" Making my own Vimrc Folds. Anything that has more than two double quote is a section
-"" vim:fdm=expr:fdl=0
-"" vim:fde=getline(v\:lnum)=~'^""'?'>'.(matchend(getline(v\:lnum),'""*')-2)\:'='
 
 "-------------VimTex Config--------
 let g:vimtex_compiler_latexmk = {
@@ -190,11 +188,12 @@ let g:vimtex_compiler_latexmk = {
 
 "------------Airline Config-------
 " let g:airline_powerline_fonts = 1
-let g:airline_theme='wombat'
+let g:airline_theme='murmur'
+let g:airline#extensions#ale#enabled = 1
+let g:airline#extensions#tagbar#enabled = 1
 "--------------------------------
 
 "-------------VimWiki Config--------
-
 let g:vimwiki_list = [{'path':'~/wiki/','path_html':'~/wiki/wiki_html/','syntax': 'markdown', 'ext': '.md','template_path':'~/wiki/wiki_html/template','template_default':'default','template_ext':'.htm'}]
 "-----------------------------------
 "
@@ -221,14 +220,16 @@ let g:cursorcross_dynamic = 'clw'
 map <F9> :IndentLinesToggle <CR>
 "--------------------------------
 
-"------------Showing the time while saving------
-"augroup SAVING
-"    autocmd!
-"    autocmd BufWritePost * echo strftime('%c')
-"augroup END
-""--------------------------------
-
-
 "----------SimpylFold settings-----------------
 let g:SimpylFold_docstring_preview = 0
 "----------------------------------------------
+"
+"---------fzf settings------------------------
+set rtp+=/home/prashanth/.linuxbrew/opt/fzf
+nnoremap <c-p> :FZF<cr>
+function! s:find_git_root()
+  return system('git rev-parse --show-toplevel 2> /dev/null')[:-2]
+endfunction
+command! -bang -nargs=+ -complete=dir Rag call fzf#vim#ag_raw(<q-args>, {'options': '--delimiter : --nth 4..'}, <bang>0)
+nnoremap <c-f> :Rag<cr>
+"---------------------------------------------
