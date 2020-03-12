@@ -12,6 +12,7 @@ set noswapfile
 "-----------------------------------
 
 """ My nnoremaps-----------
+let maplocalleader = "_"
 " Inserting a new line with o without entering input mode
 nnoremap o o<Esc>
 nnoremap O O<Esc>
@@ -115,6 +116,7 @@ Plugin 'SirVer/ultisnips' " Ultisnips plugin
 Plugin 'honza/vim-snippets' " Snippets are separated from the engine.
 Plugin 'tpope/vim-fugitive'  "Biting dust and installing this. check again on 31-Mar-2019
 Plugin 'lervag/vimtex'
+Plugin 'freitass/todo.txt-vim'
 "-- Colorscheme plugins
 Plugin 'morhetz/gruvbox' " Gruvbox colour scheme
 Plugin 'vim-airline/vim-airline' " Airline statusbar
@@ -151,7 +153,7 @@ let g:jedi#show_call_signatures="0"
 " let g:ale_lint_on_text_changed = 'never'
 let g:ale_linters = {'python': ['flake8']}
 let g:ale_fixers = {'python': ['autopep8', 'isort']}
-let g:ale_python_flake8_options = '--max-line-length=120' "Nobody wants 80 chars limit
+let g:ale_python_flake8_options = '--ignore=E501' "Nobody wants 80 chars limit
 nmap <silent> <leader>e :ALENext<cr>
 nmap <silent> <leader>E :ALEPrevious<cr>
 let g:ale_sign_warning = '▲'
@@ -225,11 +227,14 @@ let g:SimpylFold_docstring_preview = 0
 "----------------------------------------------
 "
 "---------fzf settings------------------------
-set rtp+=/home/prashanth/.linuxbrew/opt/fzf
-nnoremap <c-p> :FZF<cr>
-function! s:find_git_root()
-  return system('git rev-parse --show-toplevel 2> /dev/null')[:-2]
-endfunction
-command! -bang -nargs=+ -complete=dir Rag call fzf#vim#ag_raw(<q-args>, {'options': '--delimiter : --nth 4..'}, <bang>0)
-nnoremap <c-f> :Rag<cr>
+set rtp+=~/.fzf
+nnoremap <c-p> :Files<cr>
+nnoremap <c-f> :Ag<cr>
+nnoremap <silent> <Leader>ag :Ag <C-R><C-W><CR>
+
+" function! s:find_git_root()
+"   return system('git rev-parse --show-toplevel 2> /dev/null')[:-2]
+" endfunction
+" command! -bang -nargs=+ -complete=dir Rag call fzf#vim#ag_raw(<q-args>, {'options': '--delimiter : --nth 4..'}, <bang>0)
+" nnoremap <c-f> :Rag<cr>
 "---------------------------------------------
