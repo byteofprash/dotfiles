@@ -9,6 +9,8 @@ set nocompatible
 filetype plugin on
 syntax on
 set noswapfile
+set splitbelow
+set termwinsize=10x0
 "-----------------------------------
 
 """ My nnoremaps-----------
@@ -26,6 +28,10 @@ nmap <F8> :TagbarToggle<CR>
 " This runs the ALEFix and fixes the lints
 nmap <F4> :ALEFix<CR> 
 nmap <F5> :ALEToggle<CR> 
+
+" Opens the terminal
+nmap <F6> :term<CR> 
+"
 noremap <expr> <C-b> max([winheight(0) - 2, 1]) . "\<C-u>" . (line('.') < 1         + winheight(0) ? 'H' : 'L')
 noremap <expr> <C-f> max([winheight(0) - 2, 1]) . "\<C-d>" . (line('.') > line('$') - winheight(0) ? 'L' : 'H')
 "" --------------Display Characteristics----
@@ -80,9 +86,29 @@ set wrap "Wrap lines
 setlocal foldmethod=indent
 " PYTHON comaptible commenting for vim-commentary plugin
 autocmd FileType python setlocal commentstring=#\ %s
+
+"Javascript compatible foldmethod
+autocmd FileType javascript setlocal foldmethod=expr tabstop=2
 set undofile " Maintain undo history between sessions
 set undodir=~/.vim/undodir
 
+
+autocmd BufRead,BufNewFile *.vue setlocal filetype=html shiftwidth=2 tabstop=2
+let g:vim_vue_plugin_load_full_syntax = 1
+let g:vim_vue_plugin_debug = 1
+let g:vim_vue_plugin_config = { 
+      \'syntax': {
+      \   'template': ['html'],
+      \   'script': ['javascript'],
+      \   'style': ['css'],
+      \},
+      \'full_syntax': [],
+      \'initial_indent': [],
+      \'attribute': 0,
+      \'keyword': 0,
+      \'foldexpr': 0,
+      \'debug': 0,
+      \}
 "-----------------------COMMANDS--------------------
 command! Q q
 command! W w
@@ -100,11 +126,13 @@ set rtp+=~/.vim/bundle/Vundle.vim
 call vundle#begin()
 Plugin 'Yggdroot/indentLine' " This is the line that shows for every indent in python. 
 Plugin 'tpope/vim-unimpaired'
-Plugin 'tpope/vim-surround' " Plugin used to surround a particular text with a char(:,[,],),..)
+" Plugin 'tpope/vim-surround' " Plugin used to surround a particular text with a char(:,[,],),..)
 Plugin 'kopischke/vim-stay' " Plugin to remember the fucking folds and not mess up!
 Plugin 'Konfekt/FastFold' "Plugin to take care of the fucked up folds in Vim!
 Plugin 'tmhedberg/SimpylFold' " Plugin to take care of folding in python
 Plugin 'tpope/vim-commentary' "Awesomatic plugin to comment lines. use gcc 
+Plugin 'tpope/vim-eunuch' " To rename files and move things
+Plugin 'maksimr/vim-jsbeautify'
 Plugin 'vimwiki/vimwiki' " Vimwiki
 Plugin 'majutsushi/tagbar' " Tagbar is a plugin that shows the tags in a separate bad in the right side. 
 Plugin 'w0rp/ale' " ze amazing tool for static lint checking. 
@@ -127,6 +155,8 @@ Plugin 'blueyed/vim-diminactive'
 Plugin 'kana/vim-textobj-user'
 Plugin 'bps/vim-textobj-python'
 Plugin 'mzlogin/vim-markdown-toc'  " Unfortunately the only FUCKING way to create a md TOC
+Plugin 'leafOfTree/vim-vue-plugin' " The plugin to indent vuejs files
+Plugin 'fisadev/vim-isort'
 call vundle#end() 
 "------------------------------------
 
@@ -138,7 +168,7 @@ let g:UltiSnipsJumpBackwardTrigger="<c-z>"
 
 " If you want :UltiSnipsEdit to split your window.
 let g:UltiSnipsEditSplit="vertical"
-let g:ultisnips_python_style="sphinx"
+let g:ultisnips_python_style="google"
 "-----------------------------------
 "
 "------------Jedi Vim Settings-----
@@ -228,9 +258,13 @@ let g:SimpylFold_docstring_preview = 0
 "
 "---------fzf settings------------------------
 set rtp+=~/.fzf
+" nnoremap <c-p> :GFiles<cr>
 nnoremap <c-p> :Files<cr>
-nnoremap <c-f> :Ag<cr>
+nnoremap <c-f> :Ag!<cr>
 nnoremap <silent> <Leader>ag :Ag <C-R><C-W><CR>
+xnoremap <silent> <Leader>ag y:Ag <C-R>"<CR>
+
+nnoremap <silent> <Leader>t :BTags <CR>
 
 " function! s:find_git_root()
 "   return system('git rev-parse --show-toplevel 2> /dev/null')[:-2]
@@ -238,3 +272,12 @@ nnoremap <silent> <Leader>ag :Ag <C-R><C-W><CR>
 " command! -bang -nargs=+ -complete=dir Rag call fzf#vim#ag_raw(<q-args>, {'options': '--delimiter : --nth 4..'}, <bang>0)
 " nnoremap <c-f> :Rag<cr>
 "---------------------------------------------
+
+
+"-------------vim-vue--------------------------
+let g:vim_vue_plugin_highlight_vue_keyword = 1
+"---------------------------------------------
+map <F7> :call JsBeautify()<cr>
+autocmd FileType javascript vnoremap <buffer>  <F9> :call RangeJsBeautify()<cr>
+autocmd FileType vue vnoremap <buffer> <F9> :call RangeJsBeautify()<cr>
+autocmd FileType vue vnoremap <buffer> <leader>bh :call RangeHtmlBeautify()<cr>
